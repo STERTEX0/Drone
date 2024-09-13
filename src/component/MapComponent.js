@@ -38,13 +38,15 @@ const MapComponent = () => {
           const { latitude, longitude } = data;
 
           if (latitude !== undefined && longitude !== undefined) {
-            const newPosition = { lat: latitude, lng: longitude };
+            if (latitude !== 0 && longitude !== 0) {
+              const newPosition = { lat: latitude, lng: longitude };
 
-            // Update positions array
-            setPositions((prevPositions) => [...prevPositions, newPosition]);
+              // Update positions array
+              setPositions((prevPositions) => [...prevPositions, newPosition]);
 
-            // Set the new position
-            setPosition(newPosition);
+              // Set the new position
+              setPosition(newPosition);
+            }
           }
         }
       } catch (error) {
@@ -73,6 +75,11 @@ const MapComponent = () => {
       mapRef.current.fitBounds(bounds);
     }
   }, [positions, position]);
+
+  // ตรวจสอบตำแหน่งก่อนแสดงแผนที่
+  if (position.lat === 0 && position.lng === 0) {
+    return null; // ไม่แสดงอะไรเลยถ้าตำแหน่งเป็น (0,0)
+  }
 
   return (
     <Card className="map-card">

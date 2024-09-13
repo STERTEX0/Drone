@@ -6,6 +6,7 @@ import "./ServoControl.css";
 const ServoControl = ({ onRefresh }) => {
   const { ws } = useWebSocket();
   const [intervalId, setIntervalId] = useState(null);
+  const [isCameraOn, setIsCameraOn] = useState(false); // เก็บสถานะของกล้อง
 
   const sendCommand = (command) => {
     if (ws && ws.readyState === WebSocket.OPEN) {
@@ -25,6 +26,15 @@ const ServoControl = ({ onRefresh }) => {
   const handleMouseUp = () => {
     clearInterval(intervalId);
     setIntervalId(null);
+  };
+
+  const toggleCamera = () => {
+    if (isCameraOn) {
+      sendCommand("offcamera"); // ปิดกล้อง
+    } else {
+      sendCommand("oncamera"); // เปิดกล้อง
+    }
+    setIsCameraOn((prevState) => !prevState); // สลับสถานะกล้อง
   };
 
   return (
@@ -84,6 +94,12 @@ const ServoControl = ({ onRefresh }) => {
             onClick={() => sendCommand("off")}
           >
             ปิด
+          </button>
+        </div>
+        <div className="extreme-buttons">
+          {/* ปุ่มเปิด/ปิดกล้อง */}
+          <button className="btn btn-primary" onClick={toggleCamera}>
+            {isCameraOn ? "ปิดกล้อง" : "เปิดกล้อง"}
           </button>
         </div>
         <div className="refresh-button">
