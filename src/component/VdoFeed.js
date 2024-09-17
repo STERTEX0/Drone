@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import JSMpeg from "@cycjimmy/jsmpeg-player";
-import ServoControl from "./ServoControl";
+// import ServoControl from "./ServoControl";
 import "./VdoFeed.css";
 
 const VdoFeed = () => {
@@ -9,7 +9,7 @@ const VdoFeed = () => {
 
   useEffect(() => {
     // เริ่มสตรีมวิดีโอเมื่อคอมโพเนนต์ถูกติดตั้ง
-    playerRef.current = new JSMpeg.Player('ws://10.8.8.56:9999', {
+    playerRef.current = new JSMpeg.Player('ws://10.8.8.53:9999', {
       canvas: canvasRef.current,
     });
 
@@ -21,19 +21,19 @@ const VdoFeed = () => {
     };
   }, []);
 
-  const refreshVideo = () => {
-    if (playerRef.current) {
-      playerRef.current.stop();
-      setTimeout(() => {
-        playerRef.current.play(); // เริ่มเล่นใหม่หลังจากหยุดประมาณ 2 วินาที
-      }, 2000);
-    }
-  };
+  // const refreshVideo = () => {
+  //   if (playerRef.current) {
+  //     playerRef.current.stop();
+  //     setTimeout(() => {
+  //       playerRef.current.play(); // เริ่มเล่นใหม่หลังจากหยุดประมาณ 2 วินาที
+  //     }, 2000);
+  //   }
+  // };
 
   return (
     <div className="full-screen-video-container">
       <canvas ref={canvasRef} id="canvas"></canvas>
-      <ServoControl onRefresh={refreshVideo} />
+      {/* <ServoControl onRefresh={refreshVideo} /> */}
     </div>
   );
 };

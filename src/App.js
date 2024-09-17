@@ -1,4 +1,3 @@
-// src/App.js
 import React from "react";
 import RssiLevel from "./component/RssiLevel";
 import ServoControl from "./component/ServoControl";
@@ -9,6 +8,7 @@ import "./App.css";
 import Battery from "./component/Battery";
 import StatusCard from "./component/StatusCard";
 import MapComponent from "./component/MapComponent";
+import ServiceStatus from './component/ServiceStatus';  // Import the new component
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           <VdoFeed />
           <StatusCard />
           <MapComponent />
+          <ServiceStatus /> 
         </div>
       </div>
     </WebSocketProvider>

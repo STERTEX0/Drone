@@ -1,25 +1,23 @@
-/* RssiLevel.css */
-
 .rssi-bars {
   position: fixed;
   top: 20px;
   right: 20px;
-  display: flex;
-  gap: 2px;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: repeat(5, 5px); /* กำหนด 5 คอลัมน์ แต่ละคอลัมน์กว้าง 5px */
+  grid-gap: 2px; /* ระยะห่างระหว่างแต่ละคอลัมน์ */
+  align-items: end; /* จัดตำแหน่งบาร์แต่ละอันให้ลงไปทางด้านล่าง */
   z-index: 3;
   margin-right: 30px;
 }
 
 .bar {
-  width: 5px;
   background-color: #ccc;
   border-radius: 2px;
   transition: background-color 0.3s;
 }
 
 .bar.filled {
-  background-color: #4CAF50; /* Green when signal is present */
+  background-color: #4CAF50; /* สีเขียวเมื่อสัญญาณมีค่า */
 }
 
 .bar:nth-child(1) {
@@ -41,5 +39,3 @@
 .bar:nth-child(5) {
   height: 25px;
 }
-
-

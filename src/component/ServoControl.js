@@ -1,9 +1,8 @@
-// src/component/ServoControl.js
 import React, { useState } from "react";
 import { useWebSocket } from "../context/WebSocketContext";
 import "./ServoControl.css";
 
-const ServoControl = ({ onRefresh }) => {
+const ServoControl = () => {
   const { ws } = useWebSocket();
   const [intervalId, setIntervalId] = useState(null);
   const [isCameraOn, setIsCameraOn] = useState(false); // เก็บสถานะของกล้อง
@@ -35,6 +34,14 @@ const ServoControl = ({ onRefresh }) => {
       sendCommand("oncamera"); // เปิดกล้อง
     }
     setIsCameraOn((prevState) => !prevState); // สลับสถานะกล้อง
+  };
+
+  const handleListServices = () => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send('listservice');
+    } else {
+      console.error('WebSocket is not open or available');
+    }
   };
 
   return (
@@ -83,27 +90,12 @@ const ServoControl = ({ onRefresh }) => {
           </button>
         </div>
         <div className="extreme-buttons">
-          <button
-            className="btn btn-primary"
-            onClick={() => sendCommand("on")}
-          >
-            เปิด
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => sendCommand("off")}
-          >
-            ปิด
-          </button>
-        </div>
-        <div className="extreme-buttons">
-          {/* ปุ่มเปิด/ปิดกล้อง */}
           <button className="btn btn-primary" onClick={toggleCamera}>
             {isCameraOn ? "ปิดกล้อง" : "เปิดกล้อง"}
           </button>
         </div>
-        <div className="refresh-button">
-          <button onClick={onRefresh}>รีเฟรช</button>
+        <div className="extreme-buttons">
+          <button className="btn btn-primary" onClick={handleListServices}>เช็คเซอร์วิส</button>
         </div>
       </div>
     </div>
