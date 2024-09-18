@@ -1,19 +1,13 @@
-// src/component/Battery.js
 import React, { useEffect, useState, useRef } from 'react';
 import { useWebSocket } from '../context/WebSocketContext';
 import './Battery.css';
 
 const Battery = () => {
   const { ws } = useWebSocket();
-  // eslint-disable-next-line no-unused-vars
   const [batteryPercentage, setBatteryPercentage] = useState(100); // Default to 100%
-  // eslint-disable-next-line no-unused-vars
   const [batteryCells, setBatteryCells] = useState([]); // To hold battery cell data
   const [isTooltipVisible, setIsTooltipVisible] = useState(false); // Track if the tooltip is visible
-  // eslint-disable-next-line no-unused-vars
   const [totalVoltage, setTotalVoltage] = useState(0); // Default to 0
-  // eslint-disable-next-line no-unused-vars
-  const [hasLowPercentageCell, setHasLowPercentageCell] = useState(false); // Track if there's a low percentage cell
   const batteryRef = useRef(null); // Reference to the Battery component
 
   useEffect(() => {
@@ -22,27 +16,12 @@ const Battery = () => {
         const message = event.data.replace(/^Message: /, "").replace(/'/g, '"');
         if (message.startsWith("{") && message.endsWith("}")) {
           const data = JSON.parse(message);
-  
+
           // Ensure battery data exists before processing it
           if (data && data.battery) {
-            if (data.total_voltage_percentage !== null) {
-              setBatteryPercentage(
-                data.total_voltage_percentage !== null
-                  ? data.total_voltage_percentage
-                  : "N/A"
-              );
-              setBatteryCells(data.battery); // Update battery cells data
-              setTotalVoltage(
-                data.total_voltage !== null ? data.total_voltage : "N/A"
-              ); // Update total voltage
-  
-              // Check for percentage deviations in cells
-              const lowPercentageCells = data.battery
-                .filter((cell) => cell.percentage < 5)
-                .map((cell) => `Cell ${cell.cell} is below 5%`);
-  
-              setHasLowPercentageCell(lowPercentageCells.length > 0); // Update the state
-            }
+            setBatteryPercentage(data.total_voltage_percentage || "N/A");
+            setBatteryCells(data.battery); // Update battery cells data
+            setTotalVoltage(data.total_voltage || "N/A"); // Update total voltage
           } else {
             console.warn("No battery data found in message.");
           }
@@ -51,12 +30,12 @@ const Battery = () => {
         console.error("Error processing message:", error);
       }
     };
-  
+
     // Register the WebSocket listener if WebSocket exists
     if (ws) {
       ws.addEventListener('message', handleMessage);
     }
-  
+
     // Clean up the listener on unmount
     return () => {
       if (ws) {
@@ -93,7 +72,7 @@ const Battery = () => {
         {totalVoltage !== null ? `${totalVoltage}V` : "N/A"}
       </span>
       <div
-        className={`battery-icon ${hasLowPercentageCell ? "battery-icon-warning" : ""}`}
+        className={`battery-icon ${batteryCells.some(cell => cell.percentage < 5) ? "battery-icon-warning" : ""}`}
         onClick={toggleTooltip} // Toggle tooltip visibility on click
         ref={batteryRef}
       >
@@ -107,14 +86,17 @@ const Battery = () => {
           <div className="battery-tooltip">
             {batteryCells.length === 0 ? (
               <div>
-                <div>Cell N/A: V: N/A P: N/A%</div>
+                <div>Cell N/A: V: N/A (N/A%)</div>
               </div>
             ) : (
               batteryCells.map((cell) => (
                 <div key={cell.cell} className="battery-tooltip-cell">
-                  <div>
-                    <b>Cell</b> {cell.cell}: <b>V :</b> {cell.voltage.toFixed(2)}V <b>P :</b> {cell.percentage}%
+                  <div className="battery-cell-icon">
+                    <div className="battery-cell-level" style={{ width: `${cell.percentage}%` }}>
+                      {/* แถบแสดงแบตเตอรี่ของแต่ละ cell */}
+                    </div>
                   </div>
+                  <b>Cell</b> {cell.cell}: <b>V :</b> {cell.voltage.toFixed(2)}V ({cell.percentage}%)
                 </div>
               ))
             )}

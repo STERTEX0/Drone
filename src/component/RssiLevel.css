@@ -6,7 +6,7 @@
   grid-template-columns: repeat(5, 5px); /* กำหนด 5 คอลัมน์ แต่ละคอลัมน์กว้าง 5px */
   grid-gap: 2px; /* ระยะห่างระหว่างแต่ละคอลัมน์ */
   align-items: end; /* จัดตำแหน่งบาร์แต่ละอันให้ลงไปทางด้านล่าง */
-  z-index: 3;
+  z-index: 6;
   margin-right: 30px;
 }
 

@@ -9,6 +9,7 @@ import Battery from "./component/Battery";
 import StatusCard from "./component/StatusCard";
 // import MapComponent from "./component/MapComponent";
 import ServiceStatus from './component/ServiceStatus';  // Import the new component
+import GridOverlay from './component/GridOverlay';
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <VdoFeed />
           <StatusCard />
           {/* <MapComponent /> */}
-          <ServiceStatus /> 
+          <ServiceStatus />
+          <GridOverlay /> 
         </div>
       </div>
     </WebSocketProvider>

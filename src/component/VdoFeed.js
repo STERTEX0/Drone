@@ -9,7 +9,7 @@ const VdoFeed = () => {
 
   useEffect(() => {
     // เริ่มสตรีมวิดีโอเมื่อคอมโพเนนต์ถูกติดตั้ง
-    playerRef.current = new JSMpeg.Player('ws://10.8.8.53:9999', {
+    playerRef.current = new JSMpeg.Player('ws://10.8.8.56:9999', {
       canvas: canvasRef.current,
     });
 
