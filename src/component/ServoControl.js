@@ -97,7 +97,23 @@ const ServoControl = () => {
           >
             ก้ม
           </button>
+         
         </div>
+        <div className="extreme-buttons">
+          <button
+            className="btn btn-primary"
+            onClick={() => sendCommand("on")}
+          >
+            เปิด
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => sendCommand("off")}
+          >
+            ปิด
+          </button>
+        </div>
+        
         <div className="extreme-buttons">
           <button className="btn btn-primary" onClick={toggleCamera}>
             {isCameraOn ? "ปิดกล้อง" : "เปิดกล้อง"}
