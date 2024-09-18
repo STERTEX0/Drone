@@ -7,7 +7,7 @@ import VdoFeed from './component/VdoFeed';
 import "./App.css";
 import Battery from "./component/Battery";
 import StatusCard from "./component/StatusCard";
-import MapComponent from "./component/MapComponent";
+// import MapComponent from "./component/MapComponent";
 import ServiceStatus from './component/ServiceStatus';  // Import the new component
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
           <Battery />
           <VdoFeed />
           <StatusCard />
-          <MapComponent />
+          {/* <MapComponent /> */}
           <ServiceStatus /> 
         </div>
       </div>

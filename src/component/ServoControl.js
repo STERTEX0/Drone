@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useWebSocket } from "../context/WebSocketContext";
 import "./ServoControl.css";
+import GridOverlay from "./GridOverlay"; // นำเข้า GridOverlay คอมโพเนนต์
 
 const ServoControl = () => {
   const { ws } = useWebSocket();
   const [intervalId, setIntervalId] = useState(null);
   const [isCameraOn, setIsCameraOn] = useState(false); // เก็บสถานะของกล้อง
+  const [isGridVisible, setIsGridVisible] = useState(false); // เก็บสถานะของการแสดง Grid
 
   const sendCommand = (command) => {
     if (ws && ws.readyState === WebSocket.OPEN) {
@@ -36,6 +38,10 @@ const ServoControl = () => {
     setIsCameraOn((prevState) => !prevState); // สลับสถานะกล้อง
   };
 
+  const toggleGrid = () => {
+    setIsGridVisible((prevState) => !prevState); // สลับสถานะการแสดง Grid
+  };
+
   const handleListServices = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send('listservice');
@@ -46,6 +52,9 @@ const ServoControl = () => {
 
   return (
     <div className="servo-container">
+      {/* เรียกใช้ GridOverlay และส่ง isGridVisible เป็น prop */}
+      <GridOverlay isVisible={isGridVisible} />
+
       <div className="control-buttons">
         <div className="direction-buttons">
           <button
@@ -96,6 +105,12 @@ const ServoControl = () => {
         </div>
         <div className="extreme-buttons">
           <button className="btn btn-primary" onClick={handleListServices}>เช็คเซอร์วิส</button>
+        </div>
+        <div className="extreme-buttons">
+          {/* ปุ่มเปิด/ปิด Grid Overlay */}
+          <button className="btn btn-primary" onClick={toggleGrid}>
+            {isGridVisible ? "ปิด Grid" : "เปิด Grid"}
+          </button>
         </div>
       </div>
     </div>

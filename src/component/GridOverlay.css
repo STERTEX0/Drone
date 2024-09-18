@@ -1,0 +1,24 @@
+.grid-overlay {
+    display: none; /* ซ่อน grid โดยค่าเริ่มต้น */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    grid-template-columns: repeat(3, 1fr); /* แบ่งเป็น 3 คอลัมน์ */
+    grid-template-rows: repeat(3, 1fr); /* แบ่งเป็น 3 แถว */
+    z-index: -1; /* นำมาแสดงบนสุด */
+    pointer-events: none; /* ป้องกันการโต้ตอบ */
+  }
+  
+  .grid-overlay.visible {
+    display: grid; /* แสดง grid เมื่อมี class visible */
+  }
+  
+  .grid-cell {
+    border: 1px solid red; /* เส้นแบ่งระหว่างแต่ละช่องในตาราง */
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box; /* ให้เส้นแบ่งไม่ทำให้ขนาดเกิน */
+  }
+  
