@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useWebSocket } from '../context/WebSocketContext';
-import './ServiceStatus.css'; // Add a CSS file for styling
+import './ServiceStatus.css';
 
 const ServiceStatus = () => {
   const { ws } = useWebSocket();
@@ -67,7 +67,8 @@ const ServiceStatus = () => {
           <div className="service-card-body">
             {Object.entries(services).map(([service, status]) => (
               <div className="service-info" key={service}>
-                <strong>{service}</strong>: {status}
+                <div className={`status-indicator ${status === "Active and Running" ? "active" : "inactive"}`}></div>
+                <strong>{service}</strong>
               </div>
             ))}
           </div>
